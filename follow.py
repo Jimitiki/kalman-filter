@@ -27,7 +27,7 @@ while len(waypoints) > 0:
     sensor_position = get_robot_position()
     sensor_orientation = where_robot()['orientation']
     angle = atan2(sensor_orientation[1], sensor_orientation[0])
-    (x, y, new_angle) = get_estimated_position(states, [sensor_position[0], sensor_position[1], angle])
+    (x, y, new_angle) = get_estimated_position(states, [angle, sensor_position[0], sensor_position[1]])
     if move_to_point((waypoints[0][0], waypoints[0][1]), (x, y), new_angle, 8):
         waypoints.pop(0)
     sleep(.05) #the follow_vector also sleeps for 0.05 seconds
