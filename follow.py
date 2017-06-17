@@ -18,8 +18,8 @@ timestamps = []
 
 while len(waypoints) > 0:
     robot_speed = get_speed()
-    diff = robot_speed[1] - robot_speed[0]
-    states.append([robot_speed[0], robot_speed[1], diff])
+    diff = robot_speed['speed_b'] - robot_speed['speed_a']
+    states.append([robot_speed['speed_a'], robot_speed['speed_b'], diff])
     timestamps.append(float(where_all()['time']))
     if len(states) > 8:
         states.pop(0)
