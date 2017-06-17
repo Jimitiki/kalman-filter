@@ -4,12 +4,21 @@ from math import log, pi, exp
 
 #https://arxiv.org/pdf/1204.0375.pdf
 
-def kf_predict(X, P, A, Q, B, U):
+#X = prev state
+#P = state covariance
+#A = Transition matrix
+#Q = noise covariance
+#B = input effect matrix
+#U = control input
+def predict(X, P, A, Q, B, U):
     X = dot(A, X) + dot(B, U)
     P = dot(A, dot(P, A.T)) + Q
     return(X,P) 
 
-def kf_update(X, P, Y, H, R):
+#Y = Measurement vector
+#H = Measurement matrix
+#R = Measurement covariance
+def update(X, P, Y, H, R):
     IM = dot(H, X)
     IS = R + dot(H, dot(P, H.T))
     K = dot(P, dot(H.T, inv(IS)))
@@ -18,6 +27,9 @@ def kf_update(X, P, Y, H, R):
     LH = gauss_pdf(Y, IM, IS)
     return (X,P,K,IM,IS,LH) 
 
+#X = Y
+#M = IM = Mean of predictive distribution
+#S = IS = Std dev of predictive distribution
 def gauss_pdf(X, M, S):
     if M.shape[1] == 1:
         DX = X - tile(M, X.shape[1])
