@@ -80,3 +80,10 @@ def line_intersect_test(p1, p2, p3, p4):
 
 def area(p1, p2, p3):
     return (p2[0] - p1[0]) * (p3[1] - p1[1]) - (p3[0] - p1[0]) * (p2[1] - p1[1])
+
+#makes the angle between -pi and pi
+def wrap_angle(angle):
+    while angle > math.pi:
+        angle -= math.pi
+    while angle < -math.pi:
+        angle += math.pi

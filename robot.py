@@ -9,16 +9,15 @@ BASE_TURN_SPEED = 12
 BASE_MOVE_SPEED = 6
 ROTATE_DELAY = 0.875 / math.pi / 2
 
-def follow_vector(vec_x, vec_y, goal_pos, position, orientation):
-    normal_vector = mathutils.normalize(vec_x, vec_y)
-    where = commands.where_robot()
+def move_to_point(goal_pos, current_position, current_angle):
     distance = mathutils.distance(position, goal_pos)
     if (distance < 60):
-        #commands.set_speed(0, 0)
         return True
 
-    angle = mathutils.signed_angle(normal_vector, orientation)
-    magnitude = mathutils.magnitude(vec_x, vec_y)
+    diff = (goal_pos[0] - current_position[0], goal_pos[1] - current_position[1])
+    goal_angle = math.atan2(diff[1], diff[0])
+    magnitude = 60
+    angle_diff = mathutils.wrap_angle(goal_angle - current_angle)
     angle = angle / (math.pi) + 1
     left = magnitude * (angle - 0.5)
     right = magnitude * (1.5 - angle)
