@@ -15,17 +15,17 @@ def move_to_point(goal_pos, current_position, current_angle, magnitude):
         return True
 
     diff = (goal_pos[0] - current_position[0], goal_pos[1] - current_position[1])
-    print(diff)
     goal_angle = math.atan2(diff[1], diff[0])
-    print(current_angle, goal_angle)
-    angle_diff = current_angle - goal_angle + math.pi
+    angle_diff = current_angle - goal_angle 
     print(angle_diff)
     angle = angle_diff / (math.pi) + 1
+    print(angle)
     left = magnitude * (angle - 0.5)
     right = magnitude * (1.5 - angle)
 
-    #commands.set_speed(int(left), int(right))
-    sleep(0.05)
+    print(left, right)
+
+    commands.set_speed(int(left), int(right))
     return False
 
 

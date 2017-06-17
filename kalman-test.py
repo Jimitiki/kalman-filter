@@ -9,12 +9,13 @@ from time import sleep
 
 commands.open_connection(("0.0.0.0", 55555))
 
-commands.set_pid_params(10, 4, 2)
+#commands.set_pid_params(10, 4, 2)
 
 states = []
 timestamps = []
-
 estimate = []
+position = {}
+predictions = []
 
 #have robot follow random vectors, updating predicted position along the way
 for i in range(0, int(sys.argv[1])):
@@ -32,8 +33,7 @@ for i in range(0, int(sys.argv[1])):
         states.pop(0)
         timestamps.pop(0)
     #orientation
-    print(position["orientation"])
-    theta = math.atan2(position["orientation"][0], position["orientation"][1])
+    theta = math.atan2(position["orientation"][1], position["orientation"][0])
     #pos_x
     x = position["center"][0]
     #pos_y
@@ -41,16 +41,24 @@ for i in range(0, int(sys.argv[1])):
 
     estimate = prediction.get_estimated_position(states, [theta, x, y], timestamps)
 
-    #angle_diff = mathutils.signed_angle()
+    #predictions.append(estimate)
+    #print("ERROR: ", predictions[0][0] - theta, predictions[0][1] - x, predictions[0][2] - y)
+    if len(predictions) > 8:
+        predictions.pop(0)
 
-    robot.move_to_point(goal, (x, y), theta, 10)
+
+    robot.move_to_point(goal, (estimate[1], estimate[2]), estimate[0], 10)
+    print(goal, x, y, theta)
+    #robot.move_to_point(goal, (x, y), theta, 10)
     sleep(0.11)
 
+commands.set_speed(0, 0)
 sleep(1.5)
 
 if len(estimate) == 3:
-    print("Estimated position: " + str(estimate[0]) + "," + str(estimate[1]) + ", estimated orientation: " + str(estimate[2]))
-    position = commands.get_robot_position()
-    (x, y, theta) = (position["center"][0], position["center"][1], math.atan2(position["orientation"][0], position["orientation"][1]))
+    print("Camera position: " + str(position["center"][0]) + ", " + str(position["center"][1]) + ", camera orientation: " + str(math.atan2(position["orientation"][1], position["orientation"][0])))
+    print("Estimated position: " + str(estimate[1]) + "," + str(estimate[2]) + ", estimated orientation: " + str(estimate[0]))
+    position = commands.where_robot()
+    (x, y, theta) = (position["center"][0], position["center"][1], math.atan2(position["orientation"][1], position["orientation"][0]))
     print("Actual position: " + str(x) + "," + str(y) + ", actual orientation: " + str(theta))
-    print("Error: (" + str(math.fabs(estimate[0] - x)) + ", " + str(math.fabs(estimate[1] - y)) + ", " + str(math.fabs(estimate[2] - theta)) + ")")
+    print("Error: (" + str(math.fabs(estimate[1] - x)) + ", " + str(math.fabs(estimate[2] - y)) + ", " + str(math.fabs(estimate[0] - theta)) + ")")
