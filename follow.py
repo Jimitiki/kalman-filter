@@ -8,8 +8,6 @@ commands.open_connection(ADDRESS)
 
 markers = where_markers()
 
-waypoints = [(0, 0), (0, 1000), (1000, 1000), (1000, 0)]
-
 for marker_number in markers:
     if (marker_number == "time" or marker_number == "robot"):
         continue
@@ -27,8 +25,6 @@ while len(waypoints) > 0:
     sensor_orientation = where_robot()['orientation']
     angle = atan2(sensor_orientation[1], sensor_orientation[0])
     (x, y, new_angle) = get_estimated_position(states, [sensor_position[0], sensor_position[1], angle])
-    vec_x = waypoints[0][0] - x
-    vec_y = waypoints[0][1] - y
     if follow_vector((waypoints[0][0], waypoints[0][1]), (x, y), new_angle):
         waypoints.pop(0)
     sleep(.05) #the follow_vector also sleeps for 0.05 seconds
