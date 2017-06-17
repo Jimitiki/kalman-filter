@@ -9,15 +9,13 @@ BASE_TURN_SPEED = 12
 BASE_MOVE_SPEED = 6
 ROTATE_DELAY = 0.875 / math.pi / 2
 
-def follow_vector(vec_x, vec_y, goal_pos):
+def follow_vector(vec_x, vec_y, goal_pos, position, orientation):
     normal_vector = mathutils.normalize(vec_x, vec_y)
     where = commands.where_robot()
-    position = where["center"]
     distance = mathutils.distance(position, goal_pos)
     if (distance < 60):
         #commands.set_speed(0, 0)
         return True
-    orientation = where["orientation"]
 
     angle = mathutils.signed_angle(normal_vector, orientation)
     magnitude = mathutils.magnitude(vec_x, vec_y)
