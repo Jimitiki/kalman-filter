@@ -1,5 +1,5 @@
 from numpy import dot, sum, tile, linalg
-from numpy.linalg import inv, det 
+from numpy.linalg import inv, det
 from math import log, pi, exp
 
 #https://arxiv.org/pdf/1204.0375.pdf
@@ -10,10 +10,10 @@ from math import log, pi, exp
 #Q = noise covariance
 #B = input effect matrix
 #U = control input
-def predict(X, P, A, Q, B, U):
-    X = dot(A, X) + dot(B, U)
-    P = dot(A, dot(P, A.T)) + Q
-    return(X,P) 
+def predict(X, P, A, B):
+    X = dot(A, X) + B
+    P = dot(A, dot(P, A.T))
+    return(X,P)
 
 #Y = Measurement vector
 #H = Measurement matrix
@@ -25,7 +25,7 @@ def update(X, P, Y, H, R):
     X = X + dot(K, (Y-IM))
     P = P - dot(K, dot(IS, K.T))
     LH = gauss_pdf(Y, IM, IS)
-    return (X,P,K,IM,IS,LH) 
+    return (X,P,K,IM,IS,LH)
 
 #X = Y
 #M = IM = Mean of predictive distribution
@@ -46,4 +46,4 @@ def gauss_pdf(X, M, S):
         E = 0.5 * dot(DX.T, dot(inv(S), DX))
         E = E + 0.5 * M.shape[0] * log(2 * pi) + 0.5 * log(det(S))
         P = exp(-E)
-    return (P,E) 
+    return (P,E)
