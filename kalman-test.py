@@ -32,9 +32,8 @@ for i in range(0, int(sys.argv[1])):
         states.pop(0)
         timestamps.pop(0)
     #orientation
-    theta = math.atan2(position["orientation"][0], position["orientation"][1]) + math.pi
-    if (theta < 0):
-        theta += math.pi * 2
+    print(position["orientation"])
+    theta = math.atan2(position["orientation"][0], position["orientation"][1])
     #pos_x
     x = position["center"][0]
     #pos_y

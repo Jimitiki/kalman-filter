@@ -10,7 +10,6 @@ BASE_MOVE_SPEED = 6
 ROTATE_DELAY = 0.875 / math.pi / 2
 
 def move_to_point(goal_pos, current_position, current_angle, magnitude):
-    print(goal_pos, current_position, current_angle, magnitude)
     distance = mathutils.distance(current_position, goal_pos)
     if (distance < 60):
         return True
@@ -18,14 +17,14 @@ def move_to_point(goal_pos, current_position, current_angle, magnitude):
     diff = (goal_pos[0] - current_position[0], goal_pos[1] - current_position[1])
     print(diff)
     goal_angle = math.atan2(diff[1], diff[0])
-    if (goal_angle < 0):
-        goal_angle += math.pi * 2
-    print(goal_angle)
-    angle = goal_angle / (math.pi) + 1
+    print(current_angle, goal_angle)
+    angle_diff = current_angle - goal_angle + math.pi
+    print(angle_diff)
+    angle = angle_diff / (math.pi) + 1
     left = magnitude * (angle - 0.5)
     right = magnitude * (1.5 - angle)
 
-    commands.set_speed(int(left), int(right))
+    #commands.set_speed(int(left), int(right))
     sleep(0.05)
     return False
 
