@@ -2,6 +2,8 @@ from numpy import dot, sum, tile, linalg
 from numpy.linalg import inv, det 
 from math import log, pi, exp
 
+#https://arxiv.org/pdf/1204.0375.pdf
+
 def kf_predict(X, P, A, Q, B, U):
     X = dot(A, X) + dot(B, U)
     P = dot(A, dot(P, A.T)) + Q
