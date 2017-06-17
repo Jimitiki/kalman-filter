@@ -16,7 +16,7 @@ def move_to_point(goal_pos, current_position, current_angle, magnitude):
 
     diff = (goal_pos[0] - current_position[0], goal_pos[1] - current_position[1])
     goal_angle = math.atan2(diff[1], diff[0])
-    angle_diff = current_angle - goal_angle 
+    angle_diff = mathutils.wrap_angle(goal_angle - current_angle) 
     print(angle_diff)
     angle = angle_diff / (math.pi) + 1
     print(angle)
