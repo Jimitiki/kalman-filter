@@ -22,21 +22,8 @@ def follow_vector(vec_x, vec_y, goal_pos):
     angle = mathutils.signed_angle(normal_vector, orientation)
     magnitude = mathutils.magnitude(vec_x, vec_y)
     angle = angle / (math.pi) + 1
-    left = magnitude * (angle - 1)
-    right = magnitude * (1 - angle)
-    if (angle < 1.5 and angle > 0.5):
-        left += magnitude / 2
-        right += magnitude / 2
-    """if (angle > 1.5 or angle < 0.5):
-        if angle > 1.5:
-            angle = 3 - angle
-        elif angle < 0.5:
-            angle = 1 - angle
-        left = -magnitude * (angle - 0.5)
-        right = -magnitude * (1.5 - angle)
-    else:
-        left = magnitude * (angle - 0.5)
-        right = magnitude * (1.5 - angle)"""
+    left = magnitude * (angle - 0.5)
+    right = magnitude * (1.5 - angle)
 
     commands.set_speed(int(left), int(right))
     sleep(0.05)
