@@ -1,5 +1,5 @@
 from robot import get_robot_position
-from commands import get_speed, where_robot, where_markers
+from commands import get_speed, where_robot, where_markers, where_all
 from math import atan2
 
 ADDRESS = ("0.0.0.0", 55555)
@@ -14,13 +14,16 @@ for marker_number in markers:
     waypoints.append(markers[marker_number]["center"])
 
 states = []
+timestamps = []
 
 while len(waypoints) > 0:
     robot_speed = get_speed()
     diff = robot_speed[1] - robot_speed[0]
     states.append([robot_speed[0], robot_speed[1], diff])
+    timestamps.append(float(where_all()['time']))
     if len(states) > 8:
         states.pop(0)
+        timestamps.pop(0)
     sensor_position = get_robot_position()
     sensor_orientation = where_robot()['orientation']
     angle = atan2(sensor_orientation[1], sensor_orientation[0])
