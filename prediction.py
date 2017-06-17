@@ -2,20 +2,19 @@ import kalman
 import numpy
 import math
 
-T_MATRIX = numpy.matrix(
+T_MATRIX = numpy.matrix([
         [1, 0, 0, 0, 0, 0],
         [0, 1, 0, 0, 0, 0],
         [1, -1, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 1, 0],
-        [0, 0, 0, 0, 0, 1])
+        [0, 0, 0, 0, 0, 1]])
 
 def get_estimated_position(states, start, timestamps):
-    start = None
     for i in range(0, len(states) - 2):
         delta_t = timestamps[i + 1] - timestamps[i]
         state = states[i] + start
-        start = get_next_state(state, i, i + 1)
+        start = get_next_state(state, delta_t)
     return start
 
 def get_next_state(state, delta_t):
