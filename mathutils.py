@@ -83,7 +83,7 @@ def area(p1, p2, p3):
 
 #makes the angle between -pi and pi
 def wrap_angle(angle):
-    while angle > math.pi:
-        angle -= math.pi
-    while angle < -math.pi:
-        angle += math.pi
+    while angle >= math.pi * 2:
+        angle -= math.pi * 2
+    while angle < 0:
+        angle += math.pi * 2
