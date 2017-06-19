@@ -12,7 +12,7 @@ from math import log, pi, exp
 #U = control input
 def predict(X, P, A, B):
     X = dot(A, X) + B
-    #P = dot(A, dot(P, A.T))
+    P = dot(A, dot(P, A.T))
     return(X,P)
 
 #Y = Measurement vector
