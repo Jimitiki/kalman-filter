@@ -17,12 +17,14 @@ estimate = []
 position = {}
 predictions = []
 
+markers = commands.where_markers()
+goal = markers["40"]["center"]
+
 #have robot follow random vectors, updating predicted position along the way
 for i in range(0, int(sys.argv[1])):
     motor_speeds = commands.get_speed()
     positions = commands.where_all()
     timestamp = positions["time"]
-    goal = positions["40"]["center"]
     position = positions["robot"]
     (speed_l, speed_r) = (motor_speeds["speed_a"], motor_speeds["speed_b"])
     #right motor speed, left motor speed, and motor speed diff
@@ -39,7 +41,7 @@ for i in range(0, int(sys.argv[1])):
     #pos_y
     y = position["center"][1]
 
-    estimate = prediction.get_estimated_position(states, [theta, x, y], timestamps)
+    estimate = prediction.get_estimated_position(states, [x, y, theta], timestamps)
 
     #predictions.append(estimate)
     #print("ERROR: ", predictions[0][0] - theta, predictions[0][1] - x, predictions[0][2] - y)

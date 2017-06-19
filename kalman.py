@@ -24,7 +24,7 @@ def update(X, P, Y, H, R):
     K = dot(P, dot(H.T, inv(IS)))
     X = X + dot(K, (Y-IM))
     P = P - dot(K, dot(IS, K.T))
-    LH = gauss_pdf(Y, IM, IS)
+    LH = None#gauss_pdf(Y, IM, IS)
     return (X,P,K,IM,IS,LH)
 
 #X = Y
