@@ -1,40 +1,43 @@
 import kalman
 import numpy
 import math
+from numpy import array
 
-T_MATRIX = [
+T_MATRIX = array([
                 [1, 0, 0, 0, 0, 0],
                 [0, 1, 0, 0, 0, 0],
                 [1, -1, 0, 0, 0, 0],
                 [0, 0, 0, 1, 0, 0],
                 [0, 0, 0, 0, 1, 0],
-                [0, 0, 0, 0, 0, 1]]
+                [0, 0, 0, 0, 0, 1]])
 
 MAX_TIME = 0.8
 
 def get_estimated_position(states, start, timestamps):
     total_time = 0.0
-    X = array([[states[0]], [states[1]], [states[2]], [start[0]], [start[1]], [start[2]]])
-    P = diag((0.01, 0.01, 0.01, 0.01, 0.01, 0.01))
+    print(states)
+    print(start)
+    X = array([[states[0][0]], [states[0][1]], [states[0][2]], [start[0]], [start[1]], [start[2]]])
+    P = numpy.diag((0.01, 0.01, 0.01, 0.01, 0.01, 0.01))
     for i in range(0, len(states) - 1):
         delta_t = timestamps[i + 1] - timestamps[i]
         total_time += delta_t
         if (total_time > MAX_TIME):
-            return [X[3], X[4], X[5]]
+            return [X[3][0], X[4][0], X[5][0]]
         state = states[i] + start
         (X, P) = get_next_state(X, P, state, delta_t)
-    return [X[3], X[4], X[5]]
+    return [X[3][0], X[4][0], X[5][0]]
 
 def get_next_state(X, P, state, delta_t):
-    Q = eye(X.shape[0])
-    B = eye(X.shape[0])
-    U = zeros((X.shape[0],1)) 
+    Q = numpy.eye(X.shape[0])
+    B = numpy.eye(X.shape[0])
+    U = numpy.zeros((X.shape[0],1)) 
     
-    Y = array([[state[0]], [state[1], [states[2]]]])
+    Y = array([[state[0]], [state[1]], [state[2]]])
     H = array([[1, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0]])
-    R = eye(Y.shape[0])
+    R = numpy.eye(Y.shape[0])
     
-    (X, P) = kalman.update(X, P, Y, H, R)
+    (X, P, Z1, Z2, Z3, Z4) = kalman.update(X, P, Y, H, R)
     
     distance = (state[0] + state[1] - state[2]) * 15 * delta_t
     x_dist = distance * math.cos(state[5])
