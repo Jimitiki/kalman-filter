@@ -25,10 +25,13 @@ def get_estimated_position(states, start, timestamps):
         if (total_time > MAX_TIME):
             return [X[3][0], X[4][0], X[5][0]]
         state = states[i] + start
-        (X, P) = get_next_state(X, P, state, delta_t)
+        (X1, P1) = get_next_state(X, P, state, delta_t)
+        X = X1
+        P = P1
     return [X[3][0], X[4][0], X[5][0]]
 
 def get_next_state(X, P, state, delta_t):
+    print('x', X)
     Q = numpy.eye(X.shape[0])
     B = numpy.eye(X.shape[0])
     U = numpy.zeros((X.shape[0],1)) 
@@ -38,6 +41,8 @@ def get_next_state(X, P, state, delta_t):
     R = numpy.eye(Y.shape[0])
     
     (X, P, Z1, Z2, Z3, Z4) = kalman.update(X, P, Y, H, R)
+    print('after update')
+    print(X)
     
     distance = (state[0] + state[1] - state[2]) * 15 * delta_t
     x_dist = distance * math.cos(state[5])
@@ -45,6 +50,8 @@ def get_next_state(X, P, state, delta_t):
     rotation_factor = 0
     if state[2] != 0:
         rotation_factor = state[2] / (2 * (state[0] + state[1])) * (math.fabs(state[2]) / 40) * delta_t * math.pi
-    input_matrix = [0, 0, 0, x_dist, y_dist, rotation_factor]
+    input_matrix = array([[0], [0], [0], [x_dist], [y_dist], [rotation_factor]])
     (X, P) = kalman.predict(X, P, T_MATRIX, input_matrix)
+    print('after predict')
+    print(X)
     return (X, P)

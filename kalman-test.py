@@ -49,9 +49,9 @@ for i in range(0, int(sys.argv[1])):
         predictions.pop(0)
 
 
-    robot.move_to_point(goal, (estimate[0], estimate[1]), estimate[2], 10)
+    #robot.move_to_point(goal, (estimate[0], estimate[1]), estimate[2], 10)
     print(goal, x, y, theta)
-    #robot.move_to_point(goal, (x, y), theta, 10)
+    robot.move_to_point(goal, (x, y), theta, 10)
     sleep(0.11)
 
 commands.set_speed(0, 0)

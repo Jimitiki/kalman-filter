@@ -6,7 +6,7 @@ MAX_TIME = 0.8
 
 def get_estimated_position(states, start, timestamps):
     total_time = 0.0
-    X = array([[start[0]], [start[1]], [states[0]], [states[1]]])
+    X = array([[states[0][0]], [states[0][1]], [states[0][2]], [start[0]], [start[1]], [start[2]]])
     P = diag((0.01, 0.01, 0.01, 0.01))
     for i in range(0, len(states) - 1):
         delta_t = timestamps[i + 1] - timestamps[i]
