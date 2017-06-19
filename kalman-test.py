@@ -49,7 +49,7 @@ for i in range(0, int(sys.argv[1])):
         predictions.pop(0)
 
 
-    robot.move_to_point(goal, (estimate[1], estimate[2]), estimate[0], 10)
+    robot.move_to_point(goal, (estimate[0], estimate[1]), estimate[2], 10)
     print(goal, x, y, theta)
     #robot.move_to_point(goal, (x, y), theta, 10)
     sleep(0.11)
@@ -59,7 +59,7 @@ sleep(1.5)
 
 if len(estimate) == 3:
     print("Camera position: " + str(position["center"][0]) + ", " + str(position["center"][1]) + ", camera orientation: " + str(math.atan2(position["orientation"][1], position["orientation"][0])))
-    print("Estimated position: " + str(estimate[1]) + "," + str(estimate[2]) + ", estimated orientation: " + str(estimate[0]))
+    print("Estimated position: " + str(estimate[0]) + "," + str(estimate[1]) + ", estimated orientation: " + str(estimate[2]))
     position = commands.where_robot()
     (x, y, theta) = (position["center"][0], position["center"][1], math.atan2(position["orientation"][1], position["orientation"][0]))
     print("Actual position: " + str(x) + "," + str(y) + ", actual orientation: " + str(theta))
